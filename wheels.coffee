@@ -8,7 +8,7 @@ staticFiles = {}
 do ->
   for filename in fs.readdirSync 'public'
     staticFiles[filename] = fs.readFileSync "public/#{filename}"
-  staticFiles['script.js'] = coffee.compile staticFiles['script.coffee-'].toString(), bare: true
+  staticFiles['script.js'] = coffee.compile fs.readFileSync('browsercoffi', 'utf8'), bare: true
 
 server = http.createServer (req, res) ->
   {pathname} = url.parse req.url
