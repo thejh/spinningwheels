@@ -1,21 +1,26 @@
-class Wheels
-  # the prime is both the radius and the number of wheels
-  constructor: (@prime) ->
-    @people = ({locations: [Math.floor id/@prime]} for id in [0...(@prime*@prime)])
-    @wheels = ([] for axis in [0...@prime])
-    for person, i in @people
-      @wheels[Math.floor i/@prime].push person
-    for [0...@prime]
-      for wheel in @wheels
-        person.locations.push location for person, location in wheel
-      @spin()
-  
-  spin: ->
-    for wheel, i in @wheels
-      for [0...i]
-        wheel.push wheel.shift()
-    return
+http = require 'http'
+fs = require 'fs'
+url = require 'url'
+coffee = require 'coffee-script'
 
-wheels = new Wheels 5
-for {locations}, personID in wheels.people
-  console.log "#{personID}: #{locations.join ', '}"
+WTF = "WTF is that supposed to be? gah, 404 that!"
+staticFiles = {}
+do ->
+  for filename in fs.readdirSync 'public'
+    staticFiles[filename] = fs.readFileSync "public/#{filename}"
+  staticFiles['script.js'] = coffee.compile staticFiles['script.coffee'].toString(), bare: true
+
+server = http.createServer (req, res) ->
+  {pathname} = url.parse req.url
+  filename = pathname.split("/")[1] || "index.html"
+  if staticFiles.hasOwnProperty filename
+    file = staticFiles[filename]
+    res.writeHead 200, "static ok", {"Content-Length": file.length}
+    return res.end file
+  res.writeHead 404, "WTF?", {"Content-Length": WTF.length}
+  res.end WTF
+server.listen 8080
+
+#wheels = new Wheels 26
+#for {locations}, personID in wheels.people
+#  console.log "#{personID}: #{locations.join ', '}"

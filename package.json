@@ -1,0 +1,20 @@
+{
+  "author": "Jann Horn <jannhorn@googlemail.com>",
+  "name": "spinningwheels",
+  "description": "Spinning wheels for finding groups without double-meetings",
+  "version": "0.0.0",
+  "repository": {
+    "url": ""
+  },
+  "engines": {
+    "node": "~v0.5.3"
+  },
+  "dependencies": {
+    "coffee-script": "*"
+  },
+  "devDependencies": {},
+  "subdomain": "wheels",
+  "scripts": {
+    "start": "shim.js"
+  }
+}
